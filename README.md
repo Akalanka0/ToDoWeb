@@ -1,6 +1,6 @@
 # ToDoWeb
 
-[![CI](https://github.com/Akalanka0/ToDoWeb/actions/workflows/ci.yml/badge.svg)](https://github.com/Akalanka0/ToDoWeb/actions/workflows/ci.yml)
+
 
 Simple full‑stack ToDo app demonstrating a clean React + Express + MongoDB setup that is deployment‑friendly and secure by default.
 
