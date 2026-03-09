@@ -1,6 +1,7 @@
 [build]
 root = "backend"
 builder = "nixpacks"
+buildCommand = "echo Skipping build"
 
 [deploy]
 startCommand = "npm start"
