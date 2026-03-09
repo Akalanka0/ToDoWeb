@@ -1,8 +1,11 @@
 require('dotenv').config(); // Load environment variables
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-// Always use environment variables for credentials
 const uri = process.env.MONGODB_URI;
+if (!uri) {
+  console.log("MONGODB_URI not set; skipping connection test.");
+  process.exit(0);
+}
 
 const client = new MongoClient(uri, {
   serverApi: {

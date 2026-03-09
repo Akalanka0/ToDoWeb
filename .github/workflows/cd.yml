@@ -1,0 +1,64 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - ".github/workflows/cd.yml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-deploy:
+    if: ${{ secrets.RAILWAY_TOKEN != '' && secrets.RAILWAY_PROJECT_ID != '' && secrets.RAILWAY_SERVICE_ID != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+      - name: Deploy backend to Railway
+        working-directory: backend
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+        run: |
+          railway link --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID"
+          railway up --ci
+
+  frontend-deploy:
+    if: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Vercel CLI
+        run: npm i -g vercel
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+      - name: Deploy frontend to Vercel
+        id: vercel_deploy
+        working-directory: frontend
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          vercel pull --yes --environment=production --token "$VERCEL_TOKEN"
+          URL=$(vercel deploy --prebuilt --prod --yes --token "$VERCEL_TOKEN")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+      - name: Echo deployed URL
+        run: echo "Vercel URL ${{ steps.vercel_deploy.outputs.url }}"

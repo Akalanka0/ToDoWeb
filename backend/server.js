@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const { connect } = require('./db');         // Your db connection file
 const { ObjectId } = require('mongodb');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
@@ -15,11 +18,9 @@ app.use(cors({
 // Middleware: Parse JSON body with limit
 app.use(express.json({ limit: '10kb' }));
 
-// Middleware: Simple request logging for debugging
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
+app.use(helmet());
+app.use(morgan('combined'));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
 // --- API Routes ---
 
@@ -119,12 +120,22 @@ app.delete('/api/todos/:id', async (req, res) => {
 // Health check endpoints
 app.get('/api/health', (req, res) => res.status(200).json({ status: 'ok' }));
 
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'ok',
-    database: 'connected', // You can make this dynamic if you want
-    timestamp: new Date().toISOString()
-  });
+app.get('/health', async (req, res) => {
+  try {
+    const db = await connect();
+    await db.command({ ping: 1 });
+    res.status(200).json({
+      status: 'ok',
+      database: 'connected',
+      timestamp: new Date().toISOString()
+    });
+  } catch {
+    res.status(200).json({
+      status: 'ok',
+      database: 'disconnected',
+      timestamp: new Date().toISOString()
+    });
+  }
 });
 
 // Root route to show simple message instead of 404 JSON on "/"
@@ -148,7 +159,6 @@ app.use((err, req, res, next) => {
 
 // Start server
 async function start() {
-  await connect(); // ensure DB connected first
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
@@ -156,8 +166,11 @@ async function start() {
   });
 }
 
-// Start and handle startup errors
-start().catch(err => {
-  console.error('Fatal startup error:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  start().catch(err => {
+    console.error('Fatal startup error:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = app;

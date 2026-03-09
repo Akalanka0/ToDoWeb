@@ -20,7 +20,7 @@ function App() {
         const response = await axios.get(API_BASE_URL);
         setTodos(response.data);
         setError(null);
-      } catch (err) {
+      } catch {
         setError('Failed to load todos. Please try again.');
       } finally {
         setLoadingTodos(false);
@@ -73,7 +73,7 @@ function App() {
       await axios.put(`${API_BASE_URL}/${id}`, {
         completed: !todoToUpdate.completed,
       });
-    } catch (err) {
+    } catch {
       setTodos((prev) =>
         prev.map((todo) => (todo._id === id ? todoToUpdate : todo))
       );
@@ -88,7 +88,7 @@ function App() {
     try {
       setTodos((prev) => prev.filter((todo) => todo._id !== id));
       await axios.delete(`${API_BASE_URL}/${id}`);
-    } catch (err) {
+    } catch {
       setTodos((prev) => [...prev, todoToDelete]);
       setError('Failed to delete todo. Please try again.');
     }
@@ -110,7 +110,7 @@ function App() {
           value={task}
           onChange={(e) => setTask(e.target.value)}
           placeholder="Enter task..."
-          onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+          onKeyDown={(e) => e.key === 'Enter' && addTodo()}
           disabled={loadingTodos || addingTodo}
         />
         <button onClick={addTodo} disabled={loadingTodos || addingTodo || !task.trim()}>
