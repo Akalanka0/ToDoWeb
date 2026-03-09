@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://todoweb-production-0cef.up.railway.app/api/:path*"
+      "destination": "https://todoweb-production-4250.up.railway.app/api/:path*"
     }
   ]
 }
