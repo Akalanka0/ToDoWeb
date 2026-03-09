@@ -7,7 +7,7 @@
     "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
     "build": "npm --prefix frontend ci && npm --prefix frontend run build",
     "lint": "npm --prefix frontend run lint",
-    "start": "npm --prefix backend run start"
+    "start": "npm --prefix backend ci --omit=dev && npm --prefix backend run start"
   },
   "devDependencies": {
     "concurrently": "^9.0.1"
