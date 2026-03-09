@@ -7,8 +7,8 @@ Simple full‑stack ToDo app demonstrating a clean React + Express + MongoDB set
 For a detailed overview of technologies and architecture, see [TECH-STACK.md](./TECH-STACK.md).
 
 ## Tech Stack
-- Frontend: React 19, Vite 7, Axios, ESLint
-- Backend: Node 20, Express 4, MongoDB Driver 6
+- Frontend: React 19, Vite 7.3, Axios 1.13, ESLint
+- Backend: Node 20, Express 4.22, MongoDB Driver 6.18
 - Tooling: Concurrently (root scripts), Mocha + Supertest (backend tests)
 - Deploy: Vercel (frontend) + Railway (backend)
 

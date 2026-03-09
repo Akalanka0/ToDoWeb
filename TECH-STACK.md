@@ -1,10 +1,10 @@
 # Tech Stack & Architecture
 
 ![Node 20](https://img.shields.io/badge/node-20.x-43853D?logo=node.js&logoColor=white)
-![Express 4](https://img.shields.io/badge/express-4-000000?logo=express&logoColor=white)
+![Express 4.22](https://img.shields.io/badge/express-4.22-000000?logo=express&logoColor=white)
 ![MongoDB 6](https://img.shields.io/badge/MongoDB-6-47A248?logo=mongodb&logoColor=white)
 ![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
-![Vite 7](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Vite 7.3](https://img.shields.io/badge/Vite-7.3-646CFF?logo=vite&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-Frontend-000000?logo=vercel&logoColor=white)
 ![Railway](https://img.shields.io/badge/Railway-Backend-0B0D0E?logo=railway&logoColor=white)
 ![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue?logo=githubactions&logoColor=white)
@@ -12,11 +12,11 @@
 ## Versions
 - Frontend
   - React: 19.1.x
-  - Vite: 7.0.x
-  - Axios: 1.11.x
+  - Vite: 7.3.x
+  - Axios: 1.13.x
 - Backend
   - Node: 20.x (engines pinned)
-  - Express: 4.18.x
+  - Express: 4.22.x
   - MongoDB Driver: 6.18.x
 - Tooling
   - Mocha + Supertest (backend tests)
