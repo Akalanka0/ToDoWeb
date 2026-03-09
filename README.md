@@ -94,6 +94,14 @@ This repo includes a GitHub Actions workflow to lint, build, and test. Update th
 https://github.com/Akalanka0/ToDoWeb/actions/workflows/ci.yml/badge.svg
 ```
 
+### CI/CD in Simple Words
+- CI (Continuous Integration): runs automatic checks on every push to make sure the project still works.
+  - Backend: installs deps and runs tests on Node 20.
+  - Frontend: installs deps, lints, and builds the app. Uploads a build artifact.
+- CD (Continuous Deployment): optional automation to deploy after CI passes.
+  - You can rely on Vercel + Railway auto‑deploy from GitHub (easiest).
+  - Or use the CD workflow below by adding GitHub Secrets (no secrets in code).
+
 ## Optional CD (GitHub Actions)
 - A deployment workflow is available at [.github/workflows/cd.yml](.github/workflows/cd.yml). It deploys to:
   - Railway (backend) when these GitHub secrets are set: `RAILWAY_TOKEN`, `RAILWAY_PROJECT_ID`, `RAILWAY_SERVICE_ID`
