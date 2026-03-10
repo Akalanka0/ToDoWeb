@@ -24,11 +24,11 @@
   - Concurrently (root dev orchestration)
 
 ## Architecture
-```mermaid
+
 graph LR
   A[React + Vite (Vercel)] -- /api/* rewrite --> B[Express API (Railway)]
   B --> C[(MongoDB Atlas)]
-```
+
 
 ## Responsibilities
 - Frontend
