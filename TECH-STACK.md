@@ -25,10 +25,11 @@
 
 ## Architecture
 
+```mermaid
 graph LR
-  A[React + Vite (Vercel)] -- /api/* rewrite --> B[Express API (Railway)]
+  A[React + Vite on Vercel] -- "/api/* rewrite" --> B[Express API on Railway]
   B --> C[(MongoDB Atlas)]
-
+```
 
 ## Responsibilities
 - Frontend
